@@ -3,8 +3,12 @@ name: Create changelog
 on:
   workflow_dispatch:
     inputs:
+      version:
+        description: 'Version'
+        required: true
+        default: ''
       commit:
-        description: 'Commit to calculate the changelog from'
+        description: 'From commit'
         required: true
         default: ''
 
@@ -23,7 +27,13 @@ jobs:
         with:
           from: ${{ github.event.inputs.commit }}
           to: HEAD
+          config-file: "${{ github.workspace }}/.github/workflows/defaultChangelogConfig.json"
 
-      - name: Write to CHANGELOG.md
+      - name: Append to CHANGELOG.md
         run: |
-          echo "version = '${{ steps.changelog.outputs.body }}'" >> ./CHANGELOG.md
+          printf '# %s\n%s\n%s\n' "${{ github.event.inputs.version }}" "${{ steps.changelog.outputs.body }}" "$(cat ./CHANGELOG.md)" > ./CHANGELOG.md
+
+      - name: Commit CHANGELOG.md
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update CHANGELOG.md
