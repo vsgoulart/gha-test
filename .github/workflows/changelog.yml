@@ -1,0 +1,29 @@
+name: Create changelog
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit:
+        description: 'Commit to calculate the changelog from'
+        required: true
+        default: ''
+
+jobs:
+  create_draft_release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Calculate changelog
+        uses: dlavrenuek/conventional-changelog-action@v1.1.0
+        id: changelog
+        with:
+          from: ${{ github.event.inputs.commit }}
+          to: HEAD
+
+      - name: Write to CHANGELOG.md
+        run: |
+          echo "version = '${{ steps.changelog.outputs.body }}'" >> ./CHANGELOG.md
