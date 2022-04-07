@@ -1,3 +1,6 @@
+# 2
+## ⚡️ Breaking Changes
+* i am a breaking change ([#2](https://github.com/vsgoulart/test-gha/issues/2))
 # 1
 ## ⚡️ Breaking Changes
 * i am a breaking change ([#2](https://github.com/vsgoulart/test-gha/issues/2))
@@ -17,4 +20,3 @@
 * refactor
 * style
 * docs
-
