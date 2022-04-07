@@ -11,15 +11,30 @@ on:
         description: 'From commit'
         required: true
         default: ''
+      branch:
+        description: 'Branch (if blank default branch will be used):'
+        required: false
+        default: ''
 
 jobs:
   create_draft_release:
     runs-on: ubuntu-latest
     steps:
+      - name: Check target branch
+        id: target-branch
+        run: |-
+          if [[ -z "${{ github.event.inputs.branch }}" ]]; then
+            # no branch is entered
+            echo "::set-output name=branch::main";
+          else
+            echo "::set-output name=branch::${{ github.event.inputs.branch }}";
+          fi
+
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+          ref: ${{ steps.target-branch.outputs.branch }}
 
       - name: Calculate changelog
         uses: dlavrenuek/conventional-changelog-action@v1.1.0
