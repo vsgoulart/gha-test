@@ -3,10 +3,12 @@
 ## dev
 
 ```bash
-# start locally
-npm run start
+# install
+# yarn
 
-# build and start build
-npm run build && cd ./dist && http-server -p 4200
+# start storybook
+yarn storybook
+
+# build components
+yarn build
 ```
-

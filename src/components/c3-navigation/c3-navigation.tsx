@@ -9,6 +9,12 @@ import {
 	HeaderName,
 	HeaderNavigation,
 	HeaderPanel,
+	HeaderSideNavItems,
+	SideNav,
+	SideNavItems,
+	SideNavLink,
+	SideNavMenu,
+	SideNavMenuItem,
 	SkipToContent,
 	Stack,
 	SwitcherDivider,
@@ -41,11 +47,24 @@ export interface C3NavigationProps {
 		routeProps: any
 	}
 	appBar: {
+		ariaLabel?: string
 		isOpen: boolean
 		toggle: () => void
 		setOpen: (isOpen: boolean) => void
+		elements: Array<{
+			ariaLabel?: string
+			key: string
+			label: string
+			active: boolean
+			subElements?: Array<{
+				ariaLabel?: string
+				key: string
+				label: string
+			}>
+		}>
 	}
 	sideBar: {
+		ariaLabel?: string
 		isOpen: boolean
 		toggle: () => void
 		setOpen: (isOpen: boolean) => void
@@ -528,75 +547,72 @@ export const C3Navigation = ({
 							HERE'S WHERE THE MAGIC HAPPENS
 					************************************************************* */}
 
-						{/* <SideNav
-								aria-label="App Panel"
-								expanded={navbar.appNavIsOpen}
-								isPersistent={false}
-								style={{
-									display: "grid",
-									gridAutoFlow: "row",
-									gridAutoRows: "max-content 1fr",
-									borderRight: navbar.appNavIsOpen
-										? "1px solid var(--cds-border-subtle)"
-										: undefined,
-								}}
-							>
-								<SideNavItems>
+						<SideNav
+							aria-label={appBar.ariaLabel}
+							expanded={appBar.isOpen}
+							isPersistent={false}
+							style={{
+								display: "grid",
+								gridAutoFlow: "row",
+								gridAutoRows: "max-content 1fr",
+								borderRight: appBar.isOpen
+									? "1px solid var(--cds-border-subtle)"
+									: undefined,
+							}}
+						>
+							<SideNavItems>
+								{navbar.elements.length > 0 && (
 									<HeaderSideNavItems hasDivider={true}>
-										<HeaderMenuItem<LinkProps>
-											element={ForwardRefLink}
-											route={routes.home as any}
-											router={router as any}
-											isCurrentPage={
-												router.currentRoute?.path === routes.dashboard.path
-											}
-										>
-											{t("navItems.dashboard")}
-										</HeaderMenuItem>
-										<HeaderMenuItem<LinkProps>
-											element={ForwardRefLink}
-											route={routes.clusters as any}
-											router={router as any}
-											params={{ orgId }}
-											isCurrentPage={router.currentRoute?.path.startsWith(
-												routes.clusters.path,
-											)}
-										>
-											{t("navItems.clusters")}
-										</HeaderMenuItem>
+										{navbar.elements.map((element) => (
+											<HeaderMenuItem<LinkProps>
+												key={element.key}
+												element={forwardRef}
+												isCurrentPage={element.isCurrentPage}
+											>
+												{element.label}
+											</HeaderMenuItem>
+										))}
 									</HeaderSideNavItems>
+								)}
+								{appBar.elements.map((element) => {
+									if (element.subElements && element.subElements.length > 0) {
+										return (
+											<SideNavMenu large title={element.label}>
+												{element.subElements.map((subElement) => (
+													<SideNavMenuItem
+														key={subElement.key}
+														onClick={() => {}}
+													>
+														{subElement.label}
+													</SideNavMenuItem>
+												))}
+											</SideNavMenu>
+										)
+									} else {
+										return (
+											<SideNavLink<LinkProps>
+												element={forwardRef}
+												key={element.key}
+												large
+												isActive={element.active}
+											>
+												{element.label}
+											</SideNavLink>
+										)
+									}
+								})}
+								{/* {appBar.elements.map((element) => (
 									<SideNavLink<LinkProps>
-										element={ForwardRefLink}
-										route={routes.clusters as any}
-										router={router as any}
-										params={{ orgId }}
+										element={forwardRef}
+										key={element.key}
 										large
-										isActive
+										isActive={element.active}
 									>
-										Console
-									</SideNavLink>{" "}
-									{api.visibilities.visibilities().navbar.webIde.visible &&
-										renderApplicationMenuItem("modeler", orgId, t, "side")}
-									{renderApplicationMenuItem(
-										"operate",
-										navbar.getClustersEligableForRendering(orgId, "operate"),
-										t,
-										"side",
-									)}
-									{renderApplicationMenuItem(
-										"tasklist",
-										navbar.getClustersEligableForRendering(orgId, "tasklist"),
-										t,
-										"side",
-									)}
-									{renderApplicationMenuItem(
-										"optimize",
-										navbar.getClustersEligableForRendering(orgId, "optimize"),
-										t,
-										"side",
-									)}
-								</SideNavItems>
-							</SideNav> */}
+										{element.label}
+									</SideNavLink>
+								))} */}
+							</SideNavItems>
+						</SideNav>
 
 						{/* *************************************************************
 						 ************************************************************* */}

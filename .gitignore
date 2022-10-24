@@ -4,6 +4,8 @@ dist
 dist-ssr
 *.local
 
+storybook-static
+
 .yarn/*
 !.yarn/patches
 !.yarn/releases
