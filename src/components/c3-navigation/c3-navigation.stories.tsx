@@ -1,7 +1,8 @@
 import React from "react"
 import { ComponentStory, ComponentMeta } from "@storybook/react"
 
-import { C3Navigation, C3NavigationProps } from "./c3-navigation"
+import { C3Navigation } from "./c3-navigation"
+import { C3NavigationProps } from "./c3-navigation.types"
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -42,6 +43,8 @@ const BasicProps: C3NavigationProps = {
 		name: "Console",
 		ariaLabel: "Camunda Console",
 		routeProps: {},
+		theme: "dark",
+		prodFeaturesEnables: true,
 	},
 	appBar: {
 		isOpen: false,
@@ -73,6 +76,8 @@ const AppBarOpenProps: C3NavigationProps = {
 		name: "Console",
 		ariaLabel: "Camunda Console",
 		routeProps: {},
+		theme: "dark",
+		prodFeaturesEnables: true,
 	},
 	appBar: {
 		isOpen: true,
@@ -110,6 +115,21 @@ const AppBarOpenProps: C3NavigationProps = {
 		isOpen: false,
 		toggle: () => {},
 		setOpen: (_isOpen: boolean) => {},
+	},
+	infoSideBar: {
+		isOpen: true,
+		toggle: () => {},
+		setOpen: (_isOpen: boolean) => {},
+		elements: [
+			{
+				key: "info1",
+				label: "Info 1",
+			},
+			{
+				key: "info2",
+				label: "Info 2",
+			},
+		],
 	},
 	navbar: {
 		elements: [],

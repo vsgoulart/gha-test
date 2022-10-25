@@ -10,6 +10,8 @@ import {
 	HeaderNavigation,
 	HeaderPanel,
 	HeaderSideNavItems,
+	RadioButton,
+	RadioButtonGroup,
 	SideNav,
 	SideNavItems,
 	SideNavLink,
@@ -19,6 +21,7 @@ import {
 	Stack,
 	SwitcherDivider,
 	Tag,
+	Toggle,
 } from "@carbon/react"
 import {
 	Close,
@@ -30,93 +33,106 @@ import {
 import React, { ComponentProps, useEffect } from "react"
 
 import "../../index.scss"
+import {
+	C3NavigationNavBarProps,
+	C3NavigationProps,
+	C3NavigationSideBarBaseProps,
+} from "./c3-navigation.types"
 
 /**
  * UI SHELL
  * Docs: https://react.carbondesignsystem.com/?path=/story/components-ui-shell--fixed-side-nav
  */
 
-export interface C3NavigationProps {
-	/**
-	 * that's the title!
-	 */
-	app: {
-		prefix: string
-		name: string
-		ariaLabel: string
-		routeProps: any
-	}
-	appBar: {
-		ariaLabel?: string
-		isOpen: boolean
-		toggle: () => void
-		setOpen: (isOpen: boolean) => void
-		elements: Array<{
-			ariaLabel?: string
-			key: string
-			label: string
-			active: boolean
-			subElements?: Array<{
-				ariaLabel?: string
-				key: string
-				label: string
-			}>
-		}>
-	}
-	sideBar: {
-		ariaLabel?: string
-		isOpen: boolean
-		toggle: () => void
-		setOpen: (isOpen: boolean) => void
-	}
-	orgSideBar?: {
-		ariaLabel?: string
-		isOpen: boolean
-		toggle: () => void
-		setOpen: (isOpen: boolean) => void
-	}
-	infoSideBar?: {
-		ariaLabel?: string
-		isOpen: boolean
-		toggle: () => void
-		setOpen: (isOpen: boolean) => void
-	}
-	userSideBar?: {
-		ariaLabel?: string
-		isOpen: boolean
-		toggle: () => void
-		setOpen: (isOpen: boolean) => void
-	}
-	navbar: {
-		elements: Array<{
-			label: string
-			key: string
-			routeProps: any
-			isCurrentPage: boolean
-		}>
-		tags?: Array<{
-			label: string
-			key: string
-			color?: "red" | "green" | "purple" | "teal"
-		}>
-	}
-	forwardRef?: React.ForwardRefExoticComponent<any>
-	organizations?: {
-		active: string
-		manage: {
-			onClick: () => void
-			label: string
-			ariaLabel: string
-		}
-		other: Array<{
-			label: string
-			key: string
-			onClick: () => void
-		}>
-	}
+type LinkProps = ComponentProps<any>
+
+const C3NavigationAppBar = ({
+	appBar,
+	forwardRef,
+	navbar,
+}: C3NavigationProps): JSX.Element => {
+	return (
+		<SideNav
+			aria-label={appBar.ariaLabel}
+			expanded={appBar.isOpen}
+			isPersistent={false}
+			style={{
+				display: "grid",
+				gridAutoFlow: "row",
+				gridAutoRows: "max-content 1fr",
+				borderRight: appBar.isOpen
+					? "1px solid var(--cds-border-subtle)"
+					: undefined,
+			}}
+		>
+			<SideNavItems>
+				{navbar.elements.length > 0 && (
+					<HeaderSideNavItems hasDivider={true}>
+						{navbar.elements.map((element) => (
+							<HeaderMenuItem<LinkProps>
+								key={element.key}
+								element={forwardRef}
+								isCurrentPage={element.isCurrentPage}
+							>
+								{element.label}
+							</HeaderMenuItem>
+						))}
+					</HeaderSideNavItems>
+				)}
+				{appBar.elements &&
+					appBar.elements.map((element) => {
+						if (element.subElements && element.subElements.length > 0) {
+							return (
+								<SideNavMenu large title={element.label}>
+									{element.subElements.map((subElement) => (
+										<SideNavMenuItem key={subElement.key} onClick={() => {}}>
+											{subElement.label}
+										</SideNavMenuItem>
+									))}
+								</SideNavMenu>
+							)
+						} else {
+							return (
+								<SideNavLink<LinkProps>
+									element={forwardRef}
+									key={element.key}
+									large
+									isActive={element.active}
+								>
+									{element.label}
+								</SideNavLink>
+							)
+						}
+					})}
+			</SideNavItems>
+		</SideNav>
+	)
 }
 
-type LinkProps = ComponentProps<any>
+const C3NavigationSideBar = (props: {
+	sideBar?: C3NavigationSideBarBaseProps
+}): JSX.Element | null => {
+	const { sideBar } = props
+	if (sideBar?.elements && sideBar.elements.length > 0) {
+		return (
+			<HeaderPanel aria-label={sideBar.ariaLabel} expanded={sideBar.isOpen}>
+				{sideBar.elements.map((element, index) => (
+					<Button
+						key={element.key}
+						style={index === 0 ? { marginTop: "1.5rem" } : undefined}
+						size="sm"
+						kind="ghost"
+						className="cds--switcher__item"
+						onClick={element.onClick}
+					>
+						{element.label}
+					</Button>
+				))}
+			</HeaderPanel>
+		)
+	}
+	return null
+}
 
 export const C3Navigation = ({
 	app,
@@ -166,6 +182,7 @@ export const C3Navigation = ({
 									key={element.key}
 									element={forwardRef}
 									isCurrentPage={element.isCurrentPage}
+									{...element.routeProps}
 								>
 									<span>{element.label}</span>
 								</HeaderMenuItem>
@@ -316,70 +333,36 @@ export const C3Navigation = ({
 							</HeaderPanel>
 						)}
 
-						{/* <HeaderPanel
-								aria-label="Info Panel"
-								expanded={navbar.infoPanelIsOpen}
-							>
-								<Button
-									style={{ marginTop: "1.5rem" }}
-									size="sm"
-									kind="ghost"
-									className="cds--switcher__item"
-									onClick={() => {
-										events.send({
-											id: `navBar:documentation:click`,
-											message: `Navbar: documentation clicked`,
-											level: "mixpanel",
-										})
-										window.open(EXTERNAL_LINKS.help.docsMain, "_blank")
-										navbar.toggleInfoPanel()
-									}}
-								>
-									{t("info.documentation")}
-								</Button>
+						{/* INFO SIDE BAR */}
 
-								<Button
-									size="sm"
-									kind="ghost"
-									className="cds--switcher__item"
-									onClick={() => {
-										events.send({
-											id: `navBar:feedback:click`,
-											message: `Navbar: feedback clicked`,
-											level: "mixpanel",
-										})
-										if (navbar.isEnterprise()) {
-											window.open(EXTERNAL_LINKS.help.jira, "_blank")
-										} else {
-											window.open(EXTERNAL_LINKS.help.forum, "_blank")
-										}
-										navbar.toggleInfoPanel()
-									}}
-								>
-									{t("info.feedbackAndSupport")}
-								</Button>
+						<C3NavigationSideBar sideBar={infoSideBar} />
 
-								<Button
-									size="sm"
-									kind="ghost"
-									className="cds--switcher__item"
-									onClick={() => {
-										events.send({
-											id: `navBar:slack:click`,
-											message: `Navbar: slack clicked`,
-											level: "mixpanel",
-										})
-										window.open(EXTERNAL_LINKS.help.slack, "_blank")
-										navbar.toggleInfoPanel()
-									}}
-								>
-									{t("info.slackCommunityChannel")}
-								</Button>
-							</HeaderPanel>
-
+						{/* {infoSideBar?.elements && infoSideBar.elements.length > 0 && (
 							<HeaderPanel
-								aria-label="Personal Panel"
-								expanded={navbar.personalPanelIsOpen}
+								aria-label={infoSideBar.ariaLabel}
+								expanded={infoSideBar.isOpen}
+							>
+								{infoSideBar.elements.map((element, index) => (
+									<Button
+										key={element.key}
+										style={index === 0 ? { marginTop: "1.5rem" } : undefined}
+										size="sm"
+										kind="ghost"
+										className="cds--switcher__item"
+										onClick={element.onClick}
+									>
+										{element.label}
+									</Button>
+								))}
+							</HeaderPanel>
+						)} */}
+
+						{/* USER SIDE BAR */}
+
+						{userSideBar && (
+							<HeaderPanel
+								aria-label={userSideBar.ariaLabel}
+								expanded={userSideBar.isOpen}
 								style={{
 									display: "grid",
 									gridAutoFlow: "row",
@@ -395,224 +378,127 @@ export const C3Navigation = ({
 										}}
 									>
 										<Stack gap={2}>
-											<FormLabel>Profile</FormLabel>
+											<FormLabel>{userSideBar.profile.label}</FormLabel>
 											<Stack>
 												<div
 													className="textPrimary"
 													style={{ fontSize: "14px" }}
 												>
-													{(auth.user as any).name}
+													{userSideBar.profile.user.name}
 												</div>
 												<div
 													className="textPrimary"
 													style={{ fontSize: "12px" }}
 												>
-													{(auth.user as any).email}
+													{userSideBar.profile.user.email}
 												</div>
 											</Stack>
 										</Stack>
 									</div>
 
-									<SwitcherDivider />
-
-									<div
-										style={{
-											padding: ".5rem 1rem",
-										}}
-									>
-										<RadioButtonGroup
-											name="theme-radio-group"
-											defaultSelected={app.theme}
-											legendText="Theme"
-											orientation="vertical"
-											onChange={(newValue) => {
-												app.updateTheme({
-													theme: newValue as "light" | "dark" | "system",
-													storeInSettings: true,
-												})
-											}}
-										>
-											<RadioButton id="light" labelText="Light" value="light" />
-											<RadioButton
-												id="system"
-												labelText="System"
-												value="system"
-											/>
-											<RadioButton id="dark" labelText="Dark" value="dark" />
-										</RadioButtonGroup>
-									</div>
-
-									<SwitcherDivider />
-
-									{api.visibilities.visibilities().features.prodStageToggle
-										.visible ? (
+									{userSideBar.themeSelector && (
 										<>
+											<SwitcherDivider />
+
+											<div
+												style={{
+													padding: ".5rem 1rem",
+												}}
+											>
+												<RadioButtonGroup
+													name="theme-radio-group"
+													defaultSelected={app.theme}
+													legendText="Theme"
+													orientation="vertical"
+													onChange={(newValue: string) => {
+														userSideBar.themeSelector!.onChange(newValue)
+													}}
+												>
+													<RadioButton
+														id="light"
+														labelText="Light"
+														value="light"
+													/>
+													<RadioButton
+														id="system"
+														labelText="System"
+														value="system"
+													/>
+													<RadioButton
+														id="dark"
+														labelText="Dark"
+														value="dark"
+													/>
+												</RadioButtonGroup>
+											</div>
+										</>
+									)}
+
+									{userSideBar.stageToggle && (
+										<>
+											<SwitcherDivider />
+
 											<div style={{ padding: ".5rem 1rem" }}>
 												<Toggle
 													size="sm"
 													id="toggle-productionfeatures"
-													defaultToggled={app.productionFeaturesEnabled}
-													onClick={app.toggleProductionFeatures}
+													defaultToggled={app.prodFeaturesEnables}
+													onClick={userSideBar.stageToggle!.toggle}
 													labelText="Simulate Production Features"
 												/>
 											</div>
-											<SwitcherDivider />
 										</>
-									) : null}
+									)}
 
-									<Button
-										style={{ paddingTop: ".5rem" }}
-										size="sm"
-										kind="ghost"
-										className="cds--switcher__item"
-										onClick={() => Osano.openPanel()}
-									>
-										Cookie preferences
-									</Button>
-
-									<Button
-										size="sm"
-										kind="ghost"
-										className="cds--switcher__item"
-										onClick={() => {
-											events.send({
-												id: `navBar:terms:click`,
-												message: `Navbar: terms clicked`,
-												level: "mixpanel",
-											})
-											window.open(EXTERNAL_LINKS.help.terms, "_blank")
-										}}
-									>
-										{t("info.termsOfUse")}
-									</Button>
-
-									<Button
-										size="sm"
-										kind="ghost"
-										className="cds--switcher__item"
-										onClick={() => {
-											events.send({
-												id: `navBar:privacy:click`,
-												message: `Navbar: privacy clicked`,
-												level: "mixpanel",
-											})
-											window.open(EXTERNAL_LINKS.help.privacy, "_blank")
-										}}
-									>
-										{t("info.privacyPolicy")}
-									</Button>
-
-									<Button
-										size="sm"
-										kind="ghost"
-										className="cds--switcher__item"
-										onClick={() => {
-											events.send({
-												id: `navBar:imprint:click`,
-												message: `Navbar: imprint clicked`,
-												level: "mixpanel",
-											})
-											window.open(EXTERNAL_LINKS.help.imprint, "_blank")
-										}}
-									>
-										{t("info.imprint")}
-									</Button>
-
-									<Button
-										size="sm"
-										kind="danger--ghost"
-										className="cds--switcher__item"
-										onClick={() => deleteAccount.open()}
-									>
-										{t("info.deleteAccount")}
-									</Button>
+									{userSideBar.actions.length > 0 && (
+										<>
+											<SwitcherDivider />
+											{userSideBar.actions.map((action, index) => (
+												<Button
+													aria-label={action.ariaLabel}
+													key={action.key}
+													style={
+														index === 0 ? { paddingTop: ".5rem" } : undefined
+													}
+													size="sm"
+													kind={action.kind}
+													className="cds--switcher__item"
+													onClick={action.onClick}
+												>
+													{action.label}
+												</Button>
+											))}
+										</>
+									)}
 								</Stack>
 
-								<Button
-									kind="ghost"
-									key="logout"
-									className="cds--switcher__item"
-									renderIcon={ArrowRight}
-									onClick={() => {
-										auth.logout({ returnTo: window.location.origin })
-									}}
-									style={{ alignSelf: "end" }}
-								>
-									{t("settings.logOut")}
-								</Button>
-							</HeaderPanel> */}
+								{userSideBar.bottomActions.map((action) => (
+									<Button
+										kind={action.kind}
+										key={action.key}
+										className="cds--switcher__item"
+										renderIcon={action.renderIcon}
+										onClick={action.onClick}
+										style={{ alignSelf: "end" }}
+									>
+										{action.label}
+									</Button>
+								))}
+							</HeaderPanel>
+						)}
 
 						{/* *************************************************************
 							KARL!!!!!
 							HERE'S WHERE THE MAGIC HAPPENS
 					************************************************************* */}
 
-						<SideNav
-							aria-label={appBar.ariaLabel}
-							expanded={appBar.isOpen}
-							isPersistent={false}
-							style={{
-								display: "grid",
-								gridAutoFlow: "row",
-								gridAutoRows: "max-content 1fr",
-								borderRight: appBar.isOpen
-									? "1px solid var(--cds-border-subtle)"
-									: undefined,
-							}}
-						>
-							<SideNavItems>
-								{navbar.elements.length > 0 && (
-									<HeaderSideNavItems hasDivider={true}>
-										{navbar.elements.map((element) => (
-											<HeaderMenuItem<LinkProps>
-												key={element.key}
-												element={forwardRef}
-												isCurrentPage={element.isCurrentPage}
-											>
-												{element.label}
-											</HeaderMenuItem>
-										))}
-									</HeaderSideNavItems>
-								)}
-								{appBar.elements.map((element) => {
-									if (element.subElements && element.subElements.length > 0) {
-										return (
-											<SideNavMenu large title={element.label}>
-												{element.subElements.map((subElement) => (
-													<SideNavMenuItem
-														key={subElement.key}
-														onClick={() => {}}
-													>
-														{subElement.label}
-													</SideNavMenuItem>
-												))}
-											</SideNavMenu>
-										)
-									} else {
-										return (
-											<SideNavLink<LinkProps>
-												element={forwardRef}
-												key={element.key}
-												large
-												isActive={element.active}
-											>
-												{element.label}
-											</SideNavLink>
-										)
-									}
-								})}
-								{/* {appBar.elements.map((element) => (
-									<SideNavLink<LinkProps>
-										element={forwardRef}
-										key={element.key}
-										large
-										isActive={element.active}
-									>
-										{element.label}
-									</SideNavLink>
-								))} */}
-							</SideNavItems>
-						</SideNav>
+						<C3NavigationAppBar
+							app={app}
+							sideBar={sideBar}
+							appBar={appBar}
+							forwardRef={forwardRef}
+							navbar={navbar}
+						/>
 
 						{/* *************************************************************
 						 ************************************************************* */}
