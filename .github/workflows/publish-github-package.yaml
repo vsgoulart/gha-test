@@ -15,14 +15,14 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com
 
-      - name: Set output
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+      # - name: Set output
+      #   id: vars
+      #   run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
 
-      - name: "Update Version according to Tag"
-        run: npm version "${{ env.RELEASE_VERSION }}"
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      # - name: "Update Version according to Tag"
+      #   run: npm version "${{ env.RELEASE_VERSION }}"
+      #   env:
+      #     RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
 
       - name: "Install Dependencies"
         run: yarn
