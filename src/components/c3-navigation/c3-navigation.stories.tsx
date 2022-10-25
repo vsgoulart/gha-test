@@ -2,6 +2,7 @@ import React from "react"
 import { ComponentStory, ComponentMeta } from "@storybook/react"
 
 import { ArrowRight } from "@carbon/react/icons"
+import "../../index.scss"
 
 import { C3Navigation } from "./c3-navigation"
 import {

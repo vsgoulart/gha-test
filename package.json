@@ -1,6 +1,6 @@
 {
 	"name": "@camunda-cloud/camunda-composite-components",
-	"version": "0.0.7",
+	"version": "0.0.8",
 	"scripts": {
 		"build": "yarn build:esm && yarn build:cjs",
 		"build:esm": "tsc",

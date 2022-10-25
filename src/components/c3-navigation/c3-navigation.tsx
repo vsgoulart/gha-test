@@ -32,7 +32,6 @@ import {
 } from "@carbon/react/icons"
 import React, { ComponentProps } from "react"
 
-import "../../index.scss"
 import {
 	C3NavigationProps,
 	C3NavigationSideBarBaseProps,
