@@ -1,0 +1,36 @@
+name: Publish Package
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    name: "Publishing package"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16
+          registry-url: https://npm.pkg.github.com
+
+      - name: Set output
+        id: vars
+        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+
+      - name: "Update Version according to Tag"
+        run: npm version "${{ env.RELEASE_VERSION }}"
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+
+      - name: "Install Dependencies"
+        run: yarn
+
+      - name: "Build Package"
+        run: yarn build
+
+      - name: "Publish"
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
