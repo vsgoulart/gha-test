@@ -7,29 +7,35 @@ export interface C3NavigationAppProps {
 	prodFeaturesEnables: boolean
 }
 
+export interface C3NavigationElementProps {
+	ariaLabel?: string
+	key: string
+	label: string
+	kind?: "ghost" | "danger--ghost"
+	active?: boolean
+	routeProps?: any
+	href?: string
+	onClick?: () => void
+	subElements?: C3NavigationElementProps[]
+}
+
 export interface C3NavigationSideBarBaseProps {
 	ariaLabel?: string
 	isOpen: boolean
 	toggle: () => void
 	setOpen: (isOpen: boolean) => void
-	elements?: Array<{
-		ariaLabel?: string
-		key: string
-		label: string
-		kind?: "ghost" | "danger--ghost"
-		active?: boolean
-		routeProps?: any
-		href?: string
-		onClick?: () => void
-		subElements?: Array<{
-			ariaLabel?: string
-			key: string
-			label: string
-			routeProps?: any
-			href?: string
-			onClick?: () => void
-		}>
-	}>
+	customElements?: {
+		activeOrganization?: {
+			activeLabel: string
+			otherLabel: string
+			orgName: string
+			action: {
+				label: string
+				onClick: () => void
+			}
+		}
+	}
+	elements?: C3NavigationElementProps[]
 }
 
 export interface C3NavigationNavBarProps {
@@ -44,18 +50,14 @@ export interface C3NavigationNavBarProps {
 		key: string
 		color?: "red" | "green" | "purple" | "teal"
 	}>
+	orgName?: string
 }
 
 export interface C3NavigationProps {
 	app: C3NavigationAppProps
 	appBar: C3NavigationSideBarBaseProps
 	sideBar: C3NavigationSideBarBaseProps
-	orgSideBar?: {
-		ariaLabel?: string
-		isOpen: boolean
-		toggle: () => void
-		setOpen: (isOpen: boolean) => void
-	}
+	orgSideBar?: C3NavigationSideBarBaseProps
 	infoSideBar?: C3NavigationSideBarBaseProps
 	userSideBar?: {
 		ariaLabel?: string
@@ -93,17 +95,4 @@ export interface C3NavigationProps {
 	}
 	navbar: C3NavigationNavBarProps
 	forwardRef?: React.ForwardRefExoticComponent<any>
-	organizations?: {
-		active: string
-		manage: {
-			onClick: () => void
-			label: string
-			ariaLabel: string
-		}
-		other: Array<{
-			label: string
-			key: string
-			onClick: () => void
-		}>
-	}
 }

@@ -114,13 +114,79 @@ const C3NavigationSideBar = (props: {
 }): JSX.Element | null => {
 	const { sideBar } = props
 	if (sideBar?.elements && sideBar.elements.length > 0) {
+		const activeOrganization = sideBar.customElements?.activeOrganization
 		return (
 			<HeaderPanel aria-label={sideBar.ariaLabel} expanded={sideBar.isOpen}>
 				<Stack>
+					{activeOrganization && (
+						<>
+							<div
+								style={{
+									padding: "1rem",
+									paddingTop: "1.5rem",
+									paddingBottom: ".5rem",
+									display: "grid",
+									gridAutoFlow: "column",
+									gap: ".25rem",
+								}}
+							>
+								<div
+									style={{
+										overflow: "hidden",
+										display: "grid",
+										gap: "4px",
+									}}
+								>
+									<FormLabel>{activeOrganization.activeLabel}</FormLabel>
+									<div
+										className="textPrimary"
+										style={{
+											height: "20px", // Set minimum height to allow decenders to be rendered
+											lineHeight: "20px",
+											fontSize: "14px",
+											textOverflow: "ellipsis",
+											overflow: "hidden",
+											whiteSpace: "nowrap",
+										}}
+										title={activeOrganization.orgName}
+									>
+										{activeOrganization.orgName}
+									</div>
+								</div>
+								<Button
+									size="md"
+									kind="ghost"
+									key="org-management"
+									onClick={activeOrganization.action.onClick}
+								>
+									{activeOrganization.action.label}
+								</Button>
+							</div>
+							{sideBar.elements && sideBar.elements.length > 0 && (
+								<>
+									<SwitcherDivider />
+
+									<FormLabel
+										style={{
+											paddingTop: ".5rem",
+											paddingLeft: "1rem",
+											paddingBottom: ".25rem",
+										}}
+									>
+										{activeOrganization.otherLabel}
+									</FormLabel>
+								</>
+							)}
+						</>
+					)}
 					{sideBar.elements.map((element, index) => (
 						<Button
 							key={element.key}
-							style={index === 0 ? { marginTop: "1.5rem" } : undefined}
+							style={
+								index === 0 && !sideBar.customElements
+									? { marginTop: "1.5rem" }
+									: undefined
+							}
 							size="sm"
 							kind={element.kind ?? "ghost"}
 							className="cds--switcher__item"
@@ -142,7 +208,6 @@ export const C3Navigation = ({
 	sideBar,
 	forwardRef,
 	navbar,
-	organizations,
 	orgSideBar,
 	infoSideBar,
 	userSideBar,
@@ -207,7 +272,7 @@ export const C3Navigation = ({
 											{tag.label}
 										</Tag>
 									))}
-								{organizations && (
+								{navbar.orgName && (
 									<div
 										className="bodyText"
 										style={{
@@ -219,7 +284,7 @@ export const C3Navigation = ({
 											maxWidth: "150px",
 										}}
 									>
-										{organizations.active}
+										{navbar.orgName}
 									</div>
 								)}
 							</div>
@@ -256,7 +321,7 @@ export const C3Navigation = ({
 							)}
 						</HeaderGlobalBar>
 
-						{organizations && (
+						{/* {organizations && (
 							<HeaderPanel
 								aria-label="Organizations Panel"
 								expanded={orgSideBar?.isOpen}
@@ -333,10 +398,11 @@ export const C3Navigation = ({
 									)}
 								</Stack>
 							</HeaderPanel>
-						)}
+						)} */}
 
 						{/* INFO SIDE BAR */}
 
+						<C3NavigationSideBar sideBar={orgSideBar} />
 						<C3NavigationSideBar sideBar={infoSideBar} />
 
 						{/* {infoSideBar?.elements && infoSideBar.elements.length > 0 && (

@@ -117,7 +117,7 @@ const AppBarOpenProps: C3NavigationProps = {
 		setOpen: (_isOpen: boolean) => {},
 	},
 	infoSideBar: {
-		isOpen: true,
+		isOpen: false,
 		toggle: () => {},
 		setOpen: (_isOpen: boolean) => {},
 		elements: [
@@ -128,6 +128,32 @@ const AppBarOpenProps: C3NavigationProps = {
 			{
 				key: "info2",
 				label: "Info 2",
+			},
+		],
+	},
+	orgSideBar: {
+		isOpen: true,
+		toggle: () => {},
+		setOpen: (_isOpen: boolean) => {},
+		customElements: {
+			activeOrganization: {
+				activeLabel: "Active Organization",
+				otherLabel: "Other Organization",
+				orgName: "Camunda",
+				action: {
+					label: "Manage",
+					onClick: () => {},
+				},
+			},
+		},
+		elements: [
+			{
+				key: "org1",
+				label: "Org 1",
+			},
+			{
+				key: "org2",
+				label: "Org 2",
 			},
 		],
 	},
