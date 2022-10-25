@@ -116,18 +116,20 @@ const C3NavigationSideBar = (props: {
 	if (sideBar?.elements && sideBar.elements.length > 0) {
 		return (
 			<HeaderPanel aria-label={sideBar.ariaLabel} expanded={sideBar.isOpen}>
-				{sideBar.elements.map((element, index) => (
-					<Button
-						key={element.key}
-						style={index === 0 ? { marginTop: "1.5rem" } : undefined}
-						size="sm"
-						kind="ghost"
-						className="cds--switcher__item"
-						onClick={element.onClick}
-					>
-						{element.label}
-					</Button>
-				))}
+				<Stack>
+					{sideBar.elements.map((element, index) => (
+						<Button
+							key={element.key}
+							style={index === 0 ? { marginTop: "1.5rem" } : undefined}
+							size="sm"
+							kind={element.kind ?? "ghost"}
+							className="cds--switcher__item"
+							onClick={element.onClick}
+						>
+							{element.label}
+						</Button>
+					))}
+				</Stack>
 			</HeaderPanel>
 		)
 	}

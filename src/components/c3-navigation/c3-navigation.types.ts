@@ -16,6 +16,7 @@ export interface C3NavigationSideBarBaseProps {
 		ariaLabel?: string
 		key: string
 		label: string
+		kind?: "ghost" | "danger--ghost"
 		active?: boolean
 		routeProps?: any
 		href?: string
