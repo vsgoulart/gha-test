@@ -34,7 +34,6 @@ import React, { ComponentProps, useEffect } from "react"
 
 import "../../index.scss"
 import {
-	C3NavigationNavBarProps,
 	C3NavigationProps,
 	C3NavigationSideBarBaseProps,
 } from "./c3-navigation.types"
@@ -115,9 +114,81 @@ const C3NavigationSideBar = (props: {
 	const { sideBar } = props
 	if (sideBar?.elements && sideBar.elements.length > 0) {
 		const activeOrganization = sideBar.customElements?.activeOrganization
+		const profile = sideBar.customElements?.profile
+		const themeSelector = sideBar.customElements?.themeSelector
+		const stageToggle = sideBar.customElements?.stageToggle
 		return (
-			<HeaderPanel aria-label={sideBar.ariaLabel} expanded={sideBar.isOpen}>
+			<HeaderPanel
+				aria-label={sideBar.ariaLabel}
+				expanded={sideBar.isOpen}
+				style={{
+					display: "grid",
+					gridAutoFlow: "row",
+					gridAutoRows: "max-content 1fr",
+				}}
+			>
 				<Stack>
+					{profile && (
+						<div
+							style={{
+								padding: "1rem",
+								paddingTop: "1.5rem",
+								paddingBottom: ".5rem",
+							}}
+						>
+							<Stack gap={2}>
+								<FormLabel>{profile.label}</FormLabel>
+								<Stack>
+									<div className="textPrimary" style={{ fontSize: "14px" }}>
+										{profile.user.name}
+									</div>
+									<div className="textPrimary" style={{ fontSize: "12px" }}>
+										{profile.user.email}
+									</div>
+								</Stack>
+							</Stack>
+						</div>
+					)}
+					{themeSelector && (
+						<>
+							<SwitcherDivider />
+
+							<div
+								style={{
+									padding: ".5rem 1rem",
+								}}
+							>
+								<RadioButtonGroup
+									name="theme-radio-group"
+									defaultSelected={themeSelector.currentTheme}
+									legendText="Theme"
+									orientation="vertical"
+									onChange={(newValue: string) => {
+										themeSelector.onChange(newValue)
+									}}
+								>
+									<RadioButton id="light" labelText="Light" value="light" />
+									<RadioButton id="system" labelText="System" value="system" />
+									<RadioButton id="dark" labelText="Dark" value="dark" />
+								</RadioButtonGroup>
+							</div>
+						</>
+					)}
+					{stageToggle && (
+						<>
+							<SwitcherDivider />
+
+							<div style={{ padding: ".5rem 1rem" }}>
+								<Toggle
+									size="sm"
+									id="toggle-productionfeatures"
+									defaultToggled={stageToggle.prodFeaturesEnabled}
+									onClick={stageToggle.toggle}
+									labelText="Simulate Production Features"
+								/>
+							</div>
+						</>
+					)}
 					{activeOrganization && (
 						<>
 							<div
@@ -179,6 +250,10 @@ const C3NavigationSideBar = (props: {
 							)}
 						</>
 					)}
+					{sideBar.elements &&
+						sideBar.elements.length > 0 &&
+						sideBar.customElements &&
+						!sideBar.customElements?.activeOrganization && <SwitcherDivider />}
 					{sideBar.elements.map((element, index) => (
 						<Button
 							key={element.key}
@@ -196,6 +271,19 @@ const C3NavigationSideBar = (props: {
 						</Button>
 					))}
 				</Stack>
+				{sideBar.bottomElements &&
+					sideBar.bottomElements.map((element) => (
+						<Button
+							kind={element.kind}
+							key={element.key}
+							className="cds--switcher__item"
+							renderIcon={element.renderIcon}
+							onClick={element.onClick}
+							style={{ alignSelf: "end" }}
+						>
+							{element.label}
+						</Button>
+					))}
 			</HeaderPanel>
 		)
 	}
@@ -321,244 +409,13 @@ export const C3Navigation = ({
 							)}
 						</HeaderGlobalBar>
 
-						{/* {organizations && (
-							<HeaderPanel
-								aria-label="Organizations Panel"
-								expanded={orgSideBar?.isOpen}
-							>
-								<Stack>
-									<div
-										style={{
-											padding: "1rem",
-											paddingTop: "1.5rem",
-											paddingBottom: ".5rem",
-											display: "grid",
-											gridAutoFlow: "column",
-											gap: ".25rem",
-										}}
-									>
-										<div
-											style={{
-												overflow: "hidden",
-												display: "grid",
-												gap: "4px",
-											}}
-										>
-											<FormLabel>Active Organization</FormLabel>
-											<div
-												className="textPrimary"
-												style={{
-													height: "20px", // Set minimum height to allow decenders to be rendered
-													lineHeight: "20px",
-													fontSize: "14px",
-													textOverflow: "ellipsis",
-													overflow: "hidden",
-													whiteSpace: "nowrap",
-												}}
-												title={organizations.active}
-											>
-												{organizations.active}
-											</div>
-										</div>
-										<Button
-											size="md"
-											kind="ghost"
-											key="org-management"
-											onClick={organizations.manage.onClick}
-										>
-											{organizations.manage.label}
-										</Button>
-									</div>
-									{organizations.other.length > 0 && (
-										<>
-											<SwitcherDivider />
-
-											<FormLabel
-												style={{
-													paddingTop: ".5rem",
-													paddingLeft: "1rem",
-													paddingBottom: ".25rem",
-												}}
-											>
-												Other Organizations
-											</FormLabel>
-
-											{organizations.other.map((org) => (
-												<Button
-													size="sm"
-													kind="ghost"
-													key={org.key}
-													className="cds--switcher__item"
-													onClick={org.onClick}
-												>
-													{org.label}
-												</Button>
-											))}
-										</>
-									)}
-								</Stack>
-							</HeaderPanel>
-						)} */}
-
-						{/* INFO SIDE BAR */}
+						{/* SIDE BARS */}
 
 						<C3NavigationSideBar sideBar={orgSideBar} />
 						<C3NavigationSideBar sideBar={infoSideBar} />
+						<C3NavigationSideBar sideBar={userSideBar} />
 
-						{/* {infoSideBar?.elements && infoSideBar.elements.length > 0 && (
-							<HeaderPanel
-								aria-label={infoSideBar.ariaLabel}
-								expanded={infoSideBar.isOpen}
-							>
-								{infoSideBar.elements.map((element, index) => (
-									<Button
-										key={element.key}
-										style={index === 0 ? { marginTop: "1.5rem" } : undefined}
-										size="sm"
-										kind="ghost"
-										className="cds--switcher__item"
-										onClick={element.onClick}
-									>
-										{element.label}
-									</Button>
-								))}
-							</HeaderPanel>
-						)} */}
-
-						{/* USER SIDE BAR */}
-
-						{userSideBar && (
-							<HeaderPanel
-								aria-label={userSideBar.ariaLabel}
-								expanded={userSideBar.isOpen}
-								style={{
-									display: "grid",
-									gridAutoFlow: "row",
-									gridAutoRows: "max-content 1fr",
-								}}
-							>
-								<Stack>
-									<div
-										style={{
-											padding: "1rem",
-											paddingTop: "1.5rem",
-											paddingBottom: ".5rem",
-										}}
-									>
-										<Stack gap={2}>
-											<FormLabel>{userSideBar.profile.label}</FormLabel>
-											<Stack>
-												<div
-													className="textPrimary"
-													style={{ fontSize: "14px" }}
-												>
-													{userSideBar.profile.user.name}
-												</div>
-												<div
-													className="textPrimary"
-													style={{ fontSize: "12px" }}
-												>
-													{userSideBar.profile.user.email}
-												</div>
-											</Stack>
-										</Stack>
-									</div>
-
-									{userSideBar.themeSelector && (
-										<>
-											<SwitcherDivider />
-
-											<div
-												style={{
-													padding: ".5rem 1rem",
-												}}
-											>
-												<RadioButtonGroup
-													name="theme-radio-group"
-													defaultSelected={app.theme}
-													legendText="Theme"
-													orientation="vertical"
-													onChange={(newValue: string) => {
-														userSideBar.themeSelector!.onChange(newValue)
-													}}
-												>
-													<RadioButton
-														id="light"
-														labelText="Light"
-														value="light"
-													/>
-													<RadioButton
-														id="system"
-														labelText="System"
-														value="system"
-													/>
-													<RadioButton
-														id="dark"
-														labelText="Dark"
-														value="dark"
-													/>
-												</RadioButtonGroup>
-											</div>
-										</>
-									)}
-
-									{userSideBar.stageToggle && (
-										<>
-											<SwitcherDivider />
-
-											<div style={{ padding: ".5rem 1rem" }}>
-												<Toggle
-													size="sm"
-													id="toggle-productionfeatures"
-													defaultToggled={app.prodFeaturesEnables}
-													onClick={userSideBar.stageToggle!.toggle}
-													labelText="Simulate Production Features"
-												/>
-											</div>
-										</>
-									)}
-
-									{userSideBar.actions.length > 0 && (
-										<>
-											<SwitcherDivider />
-											{userSideBar.actions.map((action, index) => (
-												<Button
-													aria-label={action.ariaLabel}
-													key={action.key}
-													style={
-														index === 0 ? { paddingTop: ".5rem" } : undefined
-													}
-													size="sm"
-													kind={action.kind}
-													className="cds--switcher__item"
-													onClick={action.onClick}
-												>
-													{action.label}
-												</Button>
-											))}
-										</>
-									)}
-								</Stack>
-
-								{userSideBar.bottomActions.map((action) => (
-									<Button
-										kind={action.kind}
-										key={action.key}
-										className="cds--switcher__item"
-										renderIcon={action.renderIcon}
-										onClick={action.onClick}
-										style={{ alignSelf: "end" }}
-									>
-										{action.label}
-									</Button>
-								))}
-							</HeaderPanel>
-						)}
-
-						{/* *************************************************************
-							KARL!!!!!
-							HERE'S WHERE THE MAGIC HAPPENS
-					************************************************************* */}
+						{/* APP BAR */}
 
 						<C3NavigationAppBar
 							app={app}
@@ -567,9 +424,6 @@ export const C3Navigation = ({
 							forwardRef={forwardRef}
 							navbar={navbar}
 						/>
-
-						{/* *************************************************************
-						 ************************************************************* */}
 					</Header>
 				)
 			}}

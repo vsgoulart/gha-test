@@ -3,8 +3,6 @@ export interface C3NavigationAppProps {
 	name: string
 	ariaLabel: string
 	routeProps: any
-	theme: string
-	prodFeaturesEnables: boolean
 }
 
 export interface C3NavigationElementProps {
@@ -13,6 +11,7 @@ export interface C3NavigationElementProps {
 	label: string
 	kind?: "ghost" | "danger--ghost"
 	active?: boolean
+	renderIcon?: any
 	routeProps?: any
 	href?: string
 	onClick?: () => void
@@ -34,8 +33,24 @@ export interface C3NavigationSideBarBaseProps {
 				onClick: () => void
 			}
 		}
+		profile?: {
+			label: string
+			user: {
+				name: string
+				email: string
+			}
+		}
+		themeSelector?: {
+			currentTheme: string
+			onChange: (newValue: string) => void
+		}
+		stageToggle?: {
+			prodFeaturesEnabled: boolean
+			toggle: () => void
+		}
 	}
 	elements?: C3NavigationElementProps[]
+	bottomElements?: C3NavigationElementProps[]
 }
 
 export interface C3NavigationNavBarProps {
@@ -59,40 +74,7 @@ export interface C3NavigationProps {
 	sideBar: C3NavigationSideBarBaseProps
 	orgSideBar?: C3NavigationSideBarBaseProps
 	infoSideBar?: C3NavigationSideBarBaseProps
-	userSideBar?: {
-		ariaLabel?: string
-		isOpen: boolean
-		toggle: () => void
-		setOpen: (isOpen: boolean) => void
-		profile: {
-			label: string
-			user: {
-				name: string
-				email: string
-			}
-		}
-		themeSelector?: {
-			onChange: (newValue: string) => void
-		}
-		stageToggle?: {
-			toggle: () => void
-		}
-		actions: Array<{
-			ariaLabel?: string
-			key: string
-			label: string
-			kind?: "ghost" | "danger--ghost"
-			onClick: () => void
-		}>
-		bottomActions: Array<{
-			ariaLabel?: string
-			key: string
-			label: string
-			kind?: "ghost" | "danger--ghost"
-			renderIcon?: any
-			onClick: () => void
-		}>
-	}
+	userSideBar?: C3NavigationSideBarBaseProps
 	navbar: C3NavigationNavBarProps
 	forwardRef?: React.ForwardRefExoticComponent<any>
 }
