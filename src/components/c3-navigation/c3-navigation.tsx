@@ -30,7 +30,7 @@ import {
 	Switcher as SwitcherIcon,
 	UserAvatar,
 } from "@carbon/react/icons"
-import React, { ComponentProps, useEffect } from "react"
+import React, { ComponentProps } from "react"
 
 import "../../index.scss"
 import {
