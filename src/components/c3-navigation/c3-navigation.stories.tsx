@@ -1,7 +1,15 @@
 import React from "react"
 import { ComponentStory, ComponentMeta } from "@storybook/react"
 
-import { C3Navigation, C3NavigationProps } from "./c3-navigation"
+import { ArrowRight } from "@carbon/react/icons"
+
+import { C3Navigation } from "./c3-navigation"
+import {
+	C3NavigationAppProps,
+	C3NavigationNavBarProps,
+	C3NavigationProps,
+	C3NavigationSideBarBaseProps,
+} from "./c3-navigation.types"
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -34,48 +42,22 @@ const Template: ComponentStory<typeof C3Navigation> = (args) => (
 	<C3Navigation {...args} />
 )
 
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-export const Basic = Template.bind({})
-const BasicProps: C3NavigationProps = {
-	app: {
-		prefix: "Camunda",
-		name: "Console",
-		ariaLabel: "Camunda Console",
-		routeProps: {},
-	},
-	appBar: {
-		isOpen: false,
-		toggle: () => {},
-		setOpen: (_isOpen: boolean) => {},
-		elements: [
-			{
-				key: "console",
-				label: "Console",
-				active: true,
-			},
-		],
-	},
-	sideBar: {
-		isOpen: false,
-		toggle: () => {},
-		setOpen: (_isOpen: boolean) => {},
-	},
-	navbar: {
-		elements: [],
-	},
-}
-Basic.args = BasicProps
+// HELPER FUNCTIONS
 
-export const AppBarOpen = Template.bind({})
-const AppBarOpenProps: C3NavigationProps = {
-	app: {
+function createAppProps(): C3NavigationAppProps {
+	return {
 		prefix: "Camunda",
 		name: "Console",
 		ariaLabel: "Camunda Console",
 		routeProps: {},
-	},
-	appBar: {
-		isOpen: true,
+	}
+}
+
+function createAppBarProps(options: {
+	isOpen: boolean
+}): C3NavigationSideBarBaseProps {
+	return {
+		isOpen: options.isOpen,
 		toggle: () => {},
 		setOpen: (_isOpen: boolean) => {},
 		elements: [
@@ -105,15 +87,193 @@ const AppBarOpenProps: C3NavigationProps = {
 				],
 			},
 		],
-	},
-	sideBar: {
-		isOpen: false,
-		toggle: () => {},
-		setOpen: (_isOpen: boolean) => {},
-	},
-	navbar: {
-		elements: [],
-	},
+	}
 }
 
-AppBarOpen.args = AppBarOpenProps
+function createNavBarBarProps(): C3NavigationNavBarProps {
+	return {
+		elements: [
+			{
+				key: "dashboard",
+				label: "Dashboard",
+				isCurrentPage: true,
+				routeProps: {},
+			},
+			{
+				key: "clusters",
+				label: "Clusters",
+				isCurrentPage: false,
+				routeProps: {},
+			},
+		],
+		orgName: "Camunda",
+		tags: [
+			{
+				key: "stage",
+				label: "Production",
+				color: "red",
+			},
+			{
+				key: "githash",
+				label: "abcdefg",
+				color: "teal",
+			},
+		],
+	}
+}
+
+function createInfoSideBarProps(options: {
+	isOpen: boolean
+}): C3NavigationSideBarBaseProps {
+	return {
+		isOpen: options.isOpen,
+		toggle: () => {},
+		setOpen: (_isOpen: boolean) => {},
+		elements: [
+			{
+				key: "info1",
+				label: "Info 1",
+			},
+			{
+				key: "info2",
+				label: "Info 2",
+			},
+		],
+	}
+}
+
+function createOrgSideBarProps(options: {
+	isOpen: boolean
+}): C3NavigationSideBarBaseProps {
+	return {
+		isOpen: options.isOpen,
+		toggle: () => {},
+		setOpen: (_isOpen: boolean) => {},
+		customElements: {
+			activeOrganization: {
+				activeLabel: "Active Organization",
+				otherLabel: "Other Organization",
+				orgName: "Camunda",
+				action: {
+					label: "Manage",
+					onClick: () => {},
+				},
+			},
+		},
+		elements: [
+			{
+				key: "org1",
+				label: "Org 1",
+			},
+			{
+				key: "org2",
+				label: "Org 2",
+			},
+		],
+	}
+}
+
+function createUserSideBarProps(options: {
+	isOpen: boolean
+}): C3NavigationSideBarBaseProps {
+	return {
+		isOpen: options.isOpen,
+		toggle: () => {},
+		setOpen: (_isOpen: boolean) => {},
+		customElements: {
+			profile: {
+				label: "Profile",
+				user: {
+					email: "teamcloud@camunda.com",
+					name: "Team Cloud",
+				},
+			},
+			themeSelector: {
+				currentTheme: "dark",
+				onChange: (_theme: string) => {},
+			},
+			stageToggle: {
+				prodFeaturesEnabled: true,
+				toggle: () => {},
+			},
+		},
+		elements: [
+			{
+				key: "cookie",
+				label: "Cookie Preferences",
+			},
+			{
+				key: "terms",
+				label: "Terms of use",
+			},
+			{
+				key: "delete",
+				label: "Delete account",
+				kind: "danger--ghost",
+			},
+		],
+		bottomElements: [
+			{
+				key: "logout",
+				label: "Logout",
+				kind: "ghost",
+				renderIcon: ArrowRight,
+			},
+		],
+	}
+}
+
+// TEMPLATES
+
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+export const Basic = Template.bind({})
+const BasicProps: C3NavigationProps = {
+	app: createAppProps(),
+	appBar: createAppBarProps({ isOpen: false }),
+	navbar: createNavBarBarProps(),
+}
+Basic.args = BasicProps
+
+export const AppBarOpened = Template.bind({})
+const AppBarOpenProps: C3NavigationProps = {
+	app: createAppProps(),
+	appBar: createAppBarProps({ isOpen: true }),
+	infoSideBar: createInfoSideBarProps({ isOpen: false }),
+	orgSideBar: createOrgSideBarProps({ isOpen: false }),
+	userSideBar: createUserSideBarProps({ isOpen: false }),
+	navbar: createNavBarBarProps(),
+}
+AppBarOpened.args = AppBarOpenProps
+
+export const OrgSideBarOpened = Template.bind({})
+const OrgSideBarOpenedProps: C3NavigationProps = {
+	app: createAppProps(),
+	appBar: createAppBarProps({ isOpen: false }),
+	infoSideBar: createInfoSideBarProps({ isOpen: false }),
+	orgSideBar: createOrgSideBarProps({ isOpen: true }),
+	userSideBar: createUserSideBarProps({ isOpen: false }),
+	navbar: createNavBarBarProps(),
+}
+OrgSideBarOpened.args = OrgSideBarOpenedProps
+
+export const InfoSideBarOpened = Template.bind({})
+const InfoSideBarOpenedProps: C3NavigationProps = {
+	app: createAppProps(),
+	appBar: createAppBarProps({ isOpen: false }),
+	infoSideBar: createInfoSideBarProps({ isOpen: true }),
+	orgSideBar: createOrgSideBarProps({ isOpen: false }),
+	userSideBar: createUserSideBarProps({ isOpen: false }),
+	navbar: createNavBarBarProps(),
+}
+InfoSideBarOpened.args = InfoSideBarOpenedProps
+
+export const UserSideBarOpened = Template.bind({})
+const UserSideBarOpenedProps: C3NavigationProps = {
+	app: createAppProps(),
+	appBar: createAppBarProps({ isOpen: false }),
+	infoSideBar: createInfoSideBarProps({ isOpen: false }),
+	orgSideBar: createOrgSideBarProps({ isOpen: false }),
+	userSideBar: createUserSideBarProps({ isOpen: true }),
+	navbar: createNavBarBarProps(),
+}
+UserSideBarOpened.args = UserSideBarOpenedProps
