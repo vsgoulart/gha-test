@@ -72,6 +72,7 @@ const C3NavigationAppBar = ({
 								key={element.key}
 								element={forwardRef}
 								isCurrentPage={element.isCurrentPage}
+								{...element.routeProps}
 							>
 								{element.label}
 							</HeaderMenuItem>
@@ -293,7 +294,6 @@ const C3NavigationSideBar = (props: {
 export const C3Navigation = ({
 	app,
 	appBar,
-	sideBar,
 	forwardRef,
 	navbar,
 	orgSideBar,
@@ -302,20 +302,7 @@ export const C3Navigation = ({
 }: C3NavigationProps): JSX.Element => {
 	return (
 		<HeaderContainer
-			render={({ isSideNavExpanded, onClickSideNavExpand }) => {
-				sideBar.setOpen(isSideNavExpanded)
-				const resizeHandler = () => {
-					if (sideBar.isOpen) {
-						onClickSideNavExpand()
-					}
-				}
-				useEffect(() => {
-					window.addEventListener("resize", resizeHandler)
-
-					return () => {
-						window.removeEventListener("resize", resizeHandler)
-					}
-				}, [])
+			render={() => {
 				return (
 					<Header aria-label="Camunda Console">
 						<SkipToContent />
@@ -328,7 +315,11 @@ export const C3Navigation = ({
 							{appBar.isOpen ? <Close size={20} /> : <SwitcherIcon size={20} />}
 						</HeaderGlobalAction>
 
-						<HeaderName<LinkProps> element={forwardRef} prefix={app.prefix}>
+						<HeaderName<LinkProps>
+							element={forwardRef}
+							prefix={app.prefix}
+							{...app.routeProps}
+						>
 							<span>{app.name}</span>
 						</HeaderName>
 						<HeaderNavigation aria-label={app.ariaLabel}>
@@ -419,7 +410,6 @@ export const C3Navigation = ({
 
 						<C3NavigationAppBar
 							app={app}
-							sideBar={sideBar}
 							appBar={appBar}
 							forwardRef={forwardRef}
 							navbar={navbar}

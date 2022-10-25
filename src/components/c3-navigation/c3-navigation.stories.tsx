@@ -90,16 +90,6 @@ function createAppBarProps(options: {
 	}
 }
 
-function createSideBarProps(options: {
-	isOpen: boolean
-}): C3NavigationSideBarBaseProps {
-	return {
-		isOpen: options.isOpen,
-		toggle: () => {},
-		setOpen: (_isOpen: boolean) => {},
-	}
-}
-
 function createNavBarBarProps(): C3NavigationNavBarProps {
 	return {
 		elements: [
@@ -240,7 +230,6 @@ export const Basic = Template.bind({})
 const BasicProps: C3NavigationProps = {
 	app: createAppProps(),
 	appBar: createAppBarProps({ isOpen: false }),
-	sideBar: createSideBarProps({ isOpen: false }),
 	navbar: createNavBarBarProps(),
 }
 Basic.args = BasicProps
@@ -249,7 +238,6 @@ export const AppBarOpened = Template.bind({})
 const AppBarOpenProps: C3NavigationProps = {
 	app: createAppProps(),
 	appBar: createAppBarProps({ isOpen: true }),
-	sideBar: createSideBarProps({ isOpen: false }),
 	infoSideBar: createInfoSideBarProps({ isOpen: false }),
 	orgSideBar: createOrgSideBarProps({ isOpen: false }),
 	userSideBar: createUserSideBarProps({ isOpen: false }),
@@ -261,7 +249,6 @@ export const OrgSideBarOpened = Template.bind({})
 const OrgSideBarOpenedProps: C3NavigationProps = {
 	app: createAppProps(),
 	appBar: createAppBarProps({ isOpen: false }),
-	sideBar: createSideBarProps({ isOpen: false }),
 	infoSideBar: createInfoSideBarProps({ isOpen: false }),
 	orgSideBar: createOrgSideBarProps({ isOpen: true }),
 	userSideBar: createUserSideBarProps({ isOpen: false }),
@@ -273,7 +260,6 @@ export const InfoSideBarOpened = Template.bind({})
 const InfoSideBarOpenedProps: C3NavigationProps = {
 	app: createAppProps(),
 	appBar: createAppBarProps({ isOpen: false }),
-	sideBar: createSideBarProps({ isOpen: false }),
 	infoSideBar: createInfoSideBarProps({ isOpen: true }),
 	orgSideBar: createOrgSideBarProps({ isOpen: false }),
 	userSideBar: createUserSideBarProps({ isOpen: false }),
@@ -285,7 +271,6 @@ export const UserSideBarOpened = Template.bind({})
 const UserSideBarOpenedProps: C3NavigationProps = {
 	app: createAppProps(),
 	appBar: createAppBarProps({ isOpen: false }),
-	sideBar: createSideBarProps({ isOpen: false }),
 	infoSideBar: createInfoSideBarProps({ isOpen: false }),
 	orgSideBar: createOrgSideBarProps({ isOpen: false }),
 	userSideBar: createUserSideBarProps({ isOpen: true }),

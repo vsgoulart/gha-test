@@ -71,7 +71,6 @@ export interface C3NavigationNavBarProps {
 export interface C3NavigationProps {
 	app: C3NavigationAppProps
 	appBar: C3NavigationSideBarBaseProps
-	sideBar: C3NavigationSideBarBaseProps
 	orgSideBar?: C3NavigationSideBarBaseProps
 	infoSideBar?: C3NavigationSideBarBaseProps
 	userSideBar?: C3NavigationSideBarBaseProps
