@@ -1131,11 +1131,6 @@
   resolved "https://registry.yarnpkg.com/@carbon/colors/-/colors-11.6.0.tgz#fe6f806c20fa4ad60eaeb2d9700c5de684d37b05"
   integrity sha512-LE3aaQvRVR9zI2ao4+SHP8vfEaXtfffq4wXHvbPwoTK+I3Db745XuNWeWxC3Rte2uNPS9sjeEyCid2Q0wY/tSw==
 
-"@carbon/feature-flags@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@carbon/feature-flags/-/feature-flags-0.8.0.tgz#5d303355a51f1666a2f3347eca36b5538e64933b"
-  integrity sha512-R0RdoGA9MVv2VwvXaSnJeAW8QoO4P7RLIOi98FfOI3OmjtKPwj66UJVaxZ/63SFjDPV1deTw3k90wXHfEUCmUw==
-
 "@carbon/feature-flags@^0.9.0":
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/@carbon/feature-flags/-/feature-flags-0.9.0.tgz#13ad061bf7977d65326b35ff87d70419f6132587"
@@ -1153,7 +1148,7 @@
   resolved "https://registry.yarnpkg.com/@carbon/icon-helpers/-/icon-helpers-10.34.0.tgz#04b2957d07e0a98bb66c97c6b71430a955243887"
   integrity sha512-Ov9EBc1tR/DDrMI0pN1drj2jb27ISmYFBLdDji+aivVJkLPy8R/jikJOsOBgIq2kUjQJYNN199k2acHKjZdYIg==
 
-"@carbon/icons-react@^11.7.0":
+"@carbon/icons-react@^11.10.0":
   version "11.10.0"
   resolved "https://registry.yarnpkg.com/@carbon/icons-react/-/icons-react-11.10.0.tgz#2508768cd2ebf6ff64a713d19b52de6ee4cd060c"
   integrity sha512-807RWTfbvVzmsDg2DJ4FjwYNbJSgkrEd1Ui8I07YheJVb3sbYGGZMG7aCS0qXVlrQOhB2hggtxSW1w9NksUXNA==
@@ -1162,7 +1157,7 @@
     "@carbon/telemetry" "0.1.0"
     prop-types "^15.7.2"
 
-"@carbon/layout@^11.5.0", "@carbon/layout@^11.7.0":
+"@carbon/layout@^11.7.0":
   version "11.7.0"
   resolved "https://registry.yarnpkg.com/@carbon/layout/-/layout-11.7.0.tgz#55689dd65a36c33bf40c668e240252fd08c240f4"
   integrity sha512-p4YQvW8U5Go0Tz1PZZgllGSPmoq8xBB5PHByuHiAjzwGclxPsBmY6Ea7tftINFW8VlcjDcampyT8VfZXhP2lFg==
@@ -1172,18 +1167,18 @@
   resolved "https://registry.yarnpkg.com/@carbon/motion/-/motion-11.5.0.tgz#f54c0eb3298e3ea88bda789f02b4c5ef22a0a8d4"
   integrity sha512-5QEALh+xZzICdgVLanSpiDfBTErzVgEze/xUKs7ZdSbd6p1FaDKDGvCmj9RCsaz/CMVHIWo65MshIglSWX5Xvw==
 
-"@carbon/react@1.11.0":
-  version "1.11.0"
-  resolved "https://registry.yarnpkg.com/@carbon/react/-/react-1.11.0.tgz#a18b951c9b8e6e54f5d93d4237ba56c86747e673"
-  integrity sha512-6i2WW404cIfOYJiGXfMtUwmX+5eS4sxL2K4quFFqqtElOShPzApMEzdbryaix0JXcDt+kvG948LwOwigXvmnlQ==
+"@carbon/react@1.15.0":
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/@carbon/react/-/react-1.15.0.tgz#c0c0bfb80274cc76752d2162064817b734cabc27"
+  integrity sha512-P8P4aKmmV2ki9oHG+Vcydw9/IzaeFzyFiDP+97J2CzX/U0MVMviieQkaXUGP1Kst826qvLqkRBuKgfsmy3w+ww==
   dependencies:
     "@babel/runtime" "^7.18.3"
-    "@carbon/feature-flags" "^0.8.0"
-    "@carbon/icons-react" "^11.7.0"
-    "@carbon/layout" "^11.5.0"
-    "@carbon/styles" "^1.11.0"
+    "@carbon/feature-flags" "^0.9.0"
+    "@carbon/icons-react" "^11.10.0"
+    "@carbon/layout" "^11.7.0"
+    "@carbon/styles" "^1.15.0"
     "@carbon/telemetry" "0.1.0"
-    classnames "2.3.1"
+    classnames "2.3.2"
     copy-to-clipboard "^3.3.1"
     downshift "5.2.1"
     flatpickr "4.6.9"
@@ -1199,7 +1194,7 @@
     wicg-inert "^3.1.1"
     window-or-global "^1.0.1"
 
-"@carbon/styles@^1.11.0":
+"@carbon/styles@^1.15.0":
   version "1.15.0"
   resolved "https://registry.yarnpkg.com/@carbon/styles/-/styles-1.15.0.tgz#dff61ee40ff89606fc05d77ca0c890301ece6e07"
   integrity sha512-qyNG95iMHkrz9p0GsTFneVN8nJoPv5z06TVxiFpwGjJXFvlx8ygG+QO1gBkSPFJmOjtA4ejeS38elH2wrQfOBQ==
@@ -2532,15 +2527,10 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*":
+"@types/node@*", "@types/node@18.11.5":
   version "18.11.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.5.tgz#1bc94cf2f9ab5fe33353bc7c79c797dcc5325bef"
   integrity sha512-3JRwhbjI+cHLAkUorhf8RnqUbFXajvzX4q6fMn5JwkgtuwfYtRQYI3u4V92vI6NJuTsbBQWWh3RZjFsuevyMGQ==
-
-"@types/node@18.11.2":
-  version "18.11.2"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.11.2.tgz#c59b7641832531264fda3f1ba610362dc9a7dfc8"
-  integrity sha512-BWN3M23gLO2jVG8g/XHIRFWiiV4/GckeFIqbU/C4V3xpoBBWSMk4OZomouN0wCkfQFPqgZikyLr7DOYDysIkkw==
 
 "@types/node@^14.0.10 || ^16.0.0", "@types/node@^14.14.20 || ^16.0.0":
   version "16.18.0"
@@ -2582,26 +2572,17 @@
   resolved "https://registry.yarnpkg.com/@types/qs/-/qs-6.9.7.tgz#63bb7d067db107cc1e457c303bc25d511febf6cb"
   integrity sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==
 
-"@types/react-dom@18.0.6":
-  version "18.0.6"
-  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.6.tgz#36652900024842b74607a17786b6662dd1e103a1"
-  integrity sha512-/5OFZgfIPSwy+YuIBP/FgJnQnsxhZhjjrnxudMddeblOouIodEQ75X14Rr4wGSG/bknL+Omy9iWlLo1u/9GzAA==
+"@types/react-dom@18.0.7":
+  version "18.0.7"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.7.tgz#ee7cf8ec4e6977e3f0a7b1d38bd89c75aa2aec28"
+  integrity sha512-HaXc+BbqAZE1RdsK3tC8SbkFy6UL2xF76lT9rQs5JkPrJg3rWA3Ou/Lhw3YJQzEDkBpmJ79nBsfnd05WrBd2QQ==
   dependencies:
     "@types/react" "*"
 
-"@types/react@*":
+"@types/react@*", "@types/react@18.0.22":
   version "18.0.22"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.22.tgz#97782d995d999617de116cf61f437f1351036fc7"
   integrity sha512-4yWc5PyCkZN8ke8K9rQHkTXxHIWHxLzzW6RI1kXVoepkD3vULpKzC2sDtAMKn78h92BRYuzf+7b/ms7ajE6hFw==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@18.0.21":
-  version "18.0.21"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.0.21.tgz#b8209e9626bb00a34c76f55482697edd2b43cc67"
-  integrity sha512-7QUCOxvFgnD5Jk8ZKlUAhVcRj7GuJRjnjjiY/IUBWKgOlnvDvTMLD4RTF7NPyVmbRhNrbomZiOepg7M/2Kj1mA==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3946,10 +3927,10 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.1.tgz#dfcfa3891e306ec1dad105d0e88f4417b8535e8e"
-  integrity sha512-OlQdbZ7gLfGarSqxesMesDa5uz7KFbID8Kpq/SxIoNGDqY8lSYs0D+hhtBXhcdB3rcbXArFr7vlHheLk1voeNA==
+classnames@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.3.2.tgz#351d813bf0137fcc6a76a16b88208d2560a0d924"
+  integrity sha512-CSbhY4cFEJRe6/GQzIk5qXZ4Jeg5pcsP7b5peFSDpffpe1cqjASH/n9UTjBwOp6XpMSTwQ8Za2K5V02ueA7Tmw==
 
 clean-css@^4.2.3:
   version "4.2.4"
