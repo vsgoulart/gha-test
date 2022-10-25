@@ -112,7 +112,7 @@ const C3NavigationSideBar = (props: {
 	sideBar?: C3NavigationSideBarBaseProps
 }): JSX.Element | null => {
 	const { sideBar } = props
-	if (sideBar?.elements && sideBar.elements.length > 0) {
+	if (sideBar) {
 		const activeOrganization = sideBar.customElements?.activeOrganization
 		const profile = sideBar.customElements?.profile
 		const themeSelector = sideBar.customElements?.themeSelector
@@ -254,22 +254,23 @@ const C3NavigationSideBar = (props: {
 						sideBar.elements.length > 0 &&
 						sideBar.customElements &&
 						!sideBar.customElements?.activeOrganization && <SwitcherDivider />}
-					{sideBar.elements.map((element, index) => (
-						<Button
-							key={element.key}
-							style={
-								index === 0 && !sideBar.customElements
-									? { marginTop: "1.5rem" }
-									: undefined
-							}
-							size="sm"
-							kind={element.kind ?? "ghost"}
-							className="cds--switcher__item"
-							onClick={element.onClick}
-						>
-							{element.label}
-						</Button>
-					))}
+					{sideBar.elements &&
+						sideBar.elements.map((element, index) => (
+							<Button
+								key={element.key}
+								style={
+									index === 0 && !sideBar.customElements
+										? { marginTop: "1.5rem" }
+										: undefined
+								}
+								size="sm"
+								kind={element.kind ?? "ghost"}
+								className="cds--switcher__item"
+								onClick={element.onClick}
+							>
+								{element.label}
+							</Button>
+						))}
 				</Stack>
 				{sideBar.bottomElements &&
 					sideBar.bottomElements.map((element) => (

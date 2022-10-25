@@ -145,7 +145,15 @@ function createInfoSideBarProps(options: {
 
 function createOrgSideBarProps(options: {
 	isOpen: boolean
+	orgCount: number
 }): C3NavigationSideBarBaseProps {
+	const elements: any[] = []
+	for (let i = 0; i < options.orgCount; i++) {
+		elements.push({
+			key: `org-${i}`,
+			label: `Organization ${i}`,
+		})
+	}
 	return {
 		isOpen: options.isOpen,
 		toggle: () => {},
@@ -161,16 +169,7 @@ function createOrgSideBarProps(options: {
 				},
 			},
 		},
-		elements: [
-			{
-				key: "org1",
-				label: "Org 1",
-			},
-			{
-				key: "org2",
-				label: "Org 2",
-			},
-		],
+		elements,
 	}
 }
 
@@ -240,7 +239,7 @@ const AppBarOpenProps: C3NavigationProps = {
 	app: createAppProps(),
 	appBar: createAppBarProps({ isOpen: true }),
 	infoSideBar: createInfoSideBarProps({ isOpen: false }),
-	orgSideBar: createOrgSideBarProps({ isOpen: false }),
+	orgSideBar: createOrgSideBarProps({ isOpen: false, orgCount: 0 }),
 	userSideBar: createUserSideBarProps({ isOpen: false }),
 	navbar: createNavBarBarProps(),
 }
@@ -251,18 +250,29 @@ const OrgSideBarOpenedProps: C3NavigationProps = {
 	app: createAppProps(),
 	appBar: createAppBarProps({ isOpen: false }),
 	infoSideBar: createInfoSideBarProps({ isOpen: false }),
-	orgSideBar: createOrgSideBarProps({ isOpen: true }),
+	orgSideBar: createOrgSideBarProps({ isOpen: true, orgCount: 5 }),
 	userSideBar: createUserSideBarProps({ isOpen: false }),
 	navbar: createNavBarBarProps(),
 }
 OrgSideBarOpened.args = OrgSideBarOpenedProps
+
+export const OrgSideBarOpenedNoOrgs = Template.bind({})
+const OrgSideBarOpenedNoOrgsProps: C3NavigationProps = {
+	app: createAppProps(),
+	appBar: createAppBarProps({ isOpen: false }),
+	infoSideBar: createInfoSideBarProps({ isOpen: false }),
+	orgSideBar: createOrgSideBarProps({ isOpen: true, orgCount: 0 }),
+	userSideBar: createUserSideBarProps({ isOpen: false }),
+	navbar: createNavBarBarProps(),
+}
+OrgSideBarOpenedNoOrgs.args = OrgSideBarOpenedNoOrgsProps
 
 export const InfoSideBarOpened = Template.bind({})
 const InfoSideBarOpenedProps: C3NavigationProps = {
 	app: createAppProps(),
 	appBar: createAppBarProps({ isOpen: false }),
 	infoSideBar: createInfoSideBarProps({ isOpen: true }),
-	orgSideBar: createOrgSideBarProps({ isOpen: false }),
+	orgSideBar: createOrgSideBarProps({ isOpen: false, orgCount: 0 }),
 	userSideBar: createUserSideBarProps({ isOpen: false }),
 	navbar: createNavBarBarProps(),
 }
@@ -273,7 +283,7 @@ const UserSideBarOpenedProps: C3NavigationProps = {
 	app: createAppProps(),
 	appBar: createAppBarProps({ isOpen: false }),
 	infoSideBar: createInfoSideBarProps({ isOpen: false }),
-	orgSideBar: createOrgSideBarProps({ isOpen: false }),
+	orgSideBar: createOrgSideBarProps({ isOpen: false, orgCount: 0 }),
 	userSideBar: createUserSideBarProps({ isOpen: true }),
 	navbar: createNavBarBarProps(),
 }
