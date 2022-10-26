@@ -84,19 +84,34 @@ const C3NavigationAppBar = ({
 							return (
 								<SideNavMenu large title={element.label}>
 									{element.subElements.map((subElement) => (
-										<SideNavMenuItem key={subElement.key} onClick={() => {}}>
+										<SideNavMenuItem
+											key={subElement.key}
+											href={subElement.href}
+											onClick={subElement.onClick}
+										>
 											{subElement.label}
 										</SideNavMenuItem>
 									))}
 								</SideNavMenu>
 							)
 						} else {
-							return (
+							return element.routeProps ? (
 								<SideNavLink<LinkProps>
 									element={forwardRef}
 									key={element.key}
 									large
+									href={element.href}
 									isActive={element.active}
+									{...element.routeProps}
+								>
+									{element.label}
+								</SideNavLink>
+							) : (
+								<SideNavLink
+									key={element.key}
+									large
+									onClick={element.onClick}
+									href={element.href}
 								>
 									{element.label}
 								</SideNavLink>
