@@ -1,16 +1,14 @@
 {
 	"name": "@camunda-cloud/camunda-composite-components",
-	"version": "0.0.9",
+	"version": "0.0.10",
 	"scripts": {
-		"build": "yarn build:esm && yarn build:cjs",
-		"build:esm": "tsc",
-		"build:cjs": "tsc --module commonjs --outDir lib/cjs",
+		"build": "tsc",
 		"storybook": "start-storybook -p 6006",
 		"build-storybook": "build-storybook"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.19.6",
-		"@carbon/react": "1.15.0",
+		"@carbon/react": "1.11.0",
 		"@mdx-js/react": "^1.6.22",
 		"@storybook/addon-actions": "^6.5.13",
 		"@storybook/addon-docs": "^6.5.13",
@@ -43,8 +41,7 @@
 		"react-dom": "18.x"
 	},
 	"description": "Camunda Composite Components",
-	"main": "./lib/cjs/index.js",
-	"module": "./lib/esm/index.js",
+	"main": "./lib/esm/index.js",
 	"types": "./lib/esm/index.d.ts",
 	"files": [
 		"/lib"

@@ -14,15 +14,16 @@ export interface C3NavigationElementProps {
 	renderIcon?: any
 	routeProps?: any
 	href?: string
+	target?: "_blank" | "_self" | "_parent" | "_top"
 	onClick?: () => void
 	subElements?: C3NavigationElementProps[]
 }
 
 export interface C3NavigationSideBarBaseProps {
 	ariaLabel?: string
-	isOpen: boolean
-	toggle: () => void
-	setOpen: (isOpen: boolean) => void
+	isOpen?: boolean
+	type: "org" | "info" | "user" | "app"
+	closeOnClick?: boolean
 	customElements?: {
 		activeOrganization?: {
 			activeLabel: string
