@@ -27,6 +27,7 @@ import {
 	Close,
 	Enterprise,
 	Help,
+	Launch,
 	Switcher as SwitcherIcon,
 	UserAvatar,
 } from "@carbon/react/icons"
@@ -43,6 +44,18 @@ import {
  */
 
 type LinkProps = ComponentProps<any>
+
+const C3NavigationExternalLink = ({ label }: { label: string }) => (
+	<>
+		{label}
+		<Launch
+			style={{
+				transform: `translate(2px, 1px)`,
+				verticalAlign: "top",
+			}}
+		/>
+	</>
+)
 
 const C3NavigationAppBar = ({
 	appBar,
@@ -87,9 +100,10 @@ const C3NavigationAppBar = ({
 										<SideNavMenuItem
 											key={subElement.key}
 											href={subElement.href}
+											target={subElement.href ? subElement.target : undefined}
 											onClick={subElement.onClick}
 										>
-											{subElement.label}
+											<C3NavigationExternalLink label={subElement.label} />
 										</SideNavMenuItem>
 									))}
 								</SideNavMenu>
@@ -100,7 +114,6 @@ const C3NavigationAppBar = ({
 									element={forwardRef}
 									key={element.key}
 									large
-									href={element.href}
 									isActive={element.active}
 									{...element.routeProps}
 								>
@@ -112,6 +125,7 @@ const C3NavigationAppBar = ({
 									large
 									onClick={element.onClick}
 									href={element.href}
+									target={element.href ? element.target : undefined}
 								>
 									{element.label}
 								</SideNavLink>

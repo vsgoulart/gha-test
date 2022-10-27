@@ -71,6 +71,8 @@ function createAppBarProps(options: {
 				key: "modeler",
 				label: "Modeler",
 				active: false,
+				href: "https://camunda.com/",
+				target: "_blank",
 			},
 			{
 				key: "tasklist",
@@ -80,10 +82,14 @@ function createAppBarProps(options: {
 					{
 						key: "cluster-a",
 						label: "Cluster A",
+						href: "https://camunda.com/",
+						target: "_blank",
 					},
 					{
 						key: "cluster-b",
 						label: "Cluster B",
+						href: "https://camunda.com/",
+						target: "_blank",
 					},
 				],
 			},

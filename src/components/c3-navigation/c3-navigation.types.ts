@@ -14,6 +14,7 @@ export interface C3NavigationElementProps {
 	renderIcon?: any
 	routeProps?: any
 	href?: string
+	target?: "_blank" | "_self" | "_parent" | "_top"
 	onClick?: () => void
 	subElements?: C3NavigationElementProps[]
 }
