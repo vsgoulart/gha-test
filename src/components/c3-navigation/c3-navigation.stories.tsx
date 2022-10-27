@@ -55,12 +55,11 @@ function createAppProps(): C3NavigationAppProps {
 }
 
 function createAppBarProps(options: {
-	isOpen: boolean
+	isOpen?: boolean
 }): C3NavigationSideBarBaseProps {
 	return {
+		type: "app",
 		isOpen: options.isOpen,
-		toggle: () => {},
-		setOpen: (_isOpen: boolean) => {},
 		elements: [
 			{
 				key: "console",
@@ -133,9 +132,8 @@ function createInfoSideBarProps(options: {
 	isOpen: boolean
 }): C3NavigationSideBarBaseProps {
 	return {
+		type: "info",
 		isOpen: options.isOpen,
-		toggle: () => {},
-		setOpen: (_isOpen: boolean) => {},
 		elements: [
 			{
 				key: "info1",
@@ -161,9 +159,8 @@ function createOrgSideBarProps(options: {
 		})
 	}
 	return {
+		type: "org",
 		isOpen: options.isOpen,
-		toggle: () => {},
-		setOpen: (_isOpen: boolean) => {},
 		customElements: {
 			activeOrganization: {
 				activeLabel: "Active Organization",
@@ -183,9 +180,8 @@ function createUserSideBarProps(options: {
 	isOpen: boolean
 }): C3NavigationSideBarBaseProps {
 	return {
+		type: "user",
 		isOpen: options.isOpen,
-		toggle: () => {},
-		setOpen: (_isOpen: boolean) => {},
 		customElements: {
 			profile: {
 				label: "Profile",
@@ -235,7 +231,7 @@ function createUserSideBarProps(options: {
 export const Basic = Template.bind({})
 const BasicProps: C3NavigationProps = {
 	app: createAppProps(),
-	appBar: createAppBarProps({ isOpen: false }),
+	appBar: createAppBarProps({}),
 	navbar: createNavBarBarProps(),
 }
 Basic.args = BasicProps

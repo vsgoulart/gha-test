@@ -21,9 +21,9 @@ export interface C3NavigationElementProps {
 
 export interface C3NavigationSideBarBaseProps {
 	ariaLabel?: string
-	isOpen: boolean
-	toggle: () => void
-	setOpen: (isOpen: boolean) => void
+	isOpen?: boolean
+	type: "org" | "info" | "user" | "app"
+	closeOnClick?: boolean
 	customElements?: {
 		activeOrganization?: {
 			activeLabel: string
