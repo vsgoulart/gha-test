@@ -1,0 +1,26 @@
+name: build-everything
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "*"
+      - "!main"
+    tags-ignore:
+      - "*"
+
+jobs:
+  npm-test-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: "yarn"
+      - name: Install dependencies
+        run: yarn
+      - name: Build package
+        run: yarn build
+      - name: Build Storybook
+        run: yarn build-storybook
