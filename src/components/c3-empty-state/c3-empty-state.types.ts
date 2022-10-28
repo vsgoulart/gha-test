@@ -1,7 +1,7 @@
 export interface C3EmptyStateProps {
 	icon: { path: string; altText: string }
 	heading: string
-	introduction: any
+	description: any
 	button?: {
 		onClick: () => void
 		disabled?: boolean
