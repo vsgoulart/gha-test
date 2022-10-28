@@ -63,11 +63,13 @@ const C3NavigationAppBar = ({
 	navbar,
 }: C3NavigationProps): JSX.Element => {
 	const [appBarOpen, setAppBarOpen] = useState(appBar.isOpen)
-	const ref: any = React.createRef()
-	useOnClickOutside(ref, () => setAppBarOpen(false))
+	const refPanel: any = React.createRef()
+	const refIcon: any = React.createRef()
+	useOnClickOutside(refPanel, refIcon, () => setAppBarOpen(false))
 	return (
 		<>
 			<HeaderGlobalAction
+				ref={refIcon}
 				aria-label="App Switcher"
 				isActive={appBarOpen}
 				onClick={() => {
@@ -79,7 +81,7 @@ const C3NavigationAppBar = ({
 			</HeaderGlobalAction>
 
 			<SideNav
-				ref={ref}
+				ref={refPanel}
 				aria-label={appBar.ariaLabel}
 				expanded={appBarOpen}
 				isPersistent={false}
@@ -204,12 +206,14 @@ const C3NavigationSideBar = (props: {
 		}
 
 		const [sideBarOpen, setSideBarOpen] = useState(sideBar.isOpen)
-		const ref: any = React.createRef()
-		useOnClickOutside(ref, () => setSideBarOpen(false))
+		const refPanel: any = React.createRef()
+		const refIcon: any = React.createRef()
+		useOnClickOutside(refPanel, refIcon, () => setSideBarOpen(false))
 
 		return (
 			<>
 				<HeaderGlobalAction
+					ref={refIcon}
 					aria-label={sideBar.ariaLabel}
 					onClick={() => {
 						setSideBarOpen(!sideBarOpen)
@@ -220,7 +224,7 @@ const C3NavigationSideBar = (props: {
 				</HeaderGlobalAction>
 
 				<HeaderPanel
-					ref={ref}
+					ref={refPanel}
 					aria-label={sideBar.ariaLabel}
 					expanded={sideBarOpen}
 					style={{
@@ -509,10 +513,15 @@ export const C3Navigation = ({
 	)
 }
 
-function useOnClickOutside(ref: any, handler: any) {
+function useOnClickOutside(refPanel: any, refIcon: any, handler: any) {
 	useEffect(() => {
 		const listener = (event: any) => {
-			if (!ref.current || ref.current.contains(event.target)) {
+			if (
+				!refPanel.current ||
+				!refIcon.current ||
+				refPanel.current.contains(event.target) ||
+				refIcon.current.contains(event.target)
+			) {
 				return
 			}
 			handler(event)
@@ -523,5 +532,5 @@ function useOnClickOutside(ref: any, handler: any) {
 			document.removeEventListener("mousedown", listener)
 			document.removeEventListener("touchstart", listener)
 		}
-	}, [ref, handler])
+	}, [refPanel, handler])
 }
