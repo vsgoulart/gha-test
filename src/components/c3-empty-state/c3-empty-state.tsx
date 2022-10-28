@@ -1,5 +1,6 @@
 import { Stack, Tile, Button, Link } from "@carbon/react"
 import { C3EmptyStateProps } from "./c3-empty-state.types"
+import React from "react"
 
 export const C3EmptyState = ({
 	icon,
