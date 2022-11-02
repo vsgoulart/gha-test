@@ -131,6 +131,9 @@ const C3NavigationAppBar = ({
 													if (appBar.closeOnClick !== false) {
 														setAppBarOpen(false)
 													}
+													if (appBar.elementClicked) {
+														appBar.elementClicked(subElement.key)
+													}
 												}}
 											>
 												<C3NavigationExternalLink label={subElement.label} />
@@ -153,6 +156,9 @@ const C3NavigationAppBar = ({
 											if (appBar.closeOnClick !== false) {
 												setAppBarOpen(false)
 											}
+											if (appBar.elementClicked) {
+												appBar.elementClicked(element.key)
+											}
 										}}
 									>
 										{element.label}
@@ -167,6 +173,9 @@ const C3NavigationAppBar = ({
 											}
 											if (appBar.closeOnClick !== false) {
 												setAppBarOpen(false)
+											}
+											if (appBar.elementClicked) {
+												appBar.elementClicked(element.key)
 											}
 										}}
 										href={element.href}

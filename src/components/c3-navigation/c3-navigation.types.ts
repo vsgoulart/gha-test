@@ -24,6 +24,7 @@ export interface C3NavigationSideBarBaseProps {
 	isOpen?: boolean
 	type: "org" | "info" | "user" | "app"
 	closeOnClick?: boolean
+	elementClicked?: (key: string) => void
 	customElements?: {
 		activeOrganization?: {
 			activeLabel: string
