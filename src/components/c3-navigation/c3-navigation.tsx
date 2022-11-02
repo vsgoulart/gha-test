@@ -386,8 +386,8 @@ const C3NavigationSideBar = (props: {
 									key={element.key}
 									style={
 										index === 0 && !sideBar.customElements
-											? { marginTop: "1.5rem" }
-											: undefined
+											? { marginTop: "1.5rem", whiteSpace: "nowrap" }
+											: { whiteSpace: "nowrap" }
 									}
 									size="sm"
 									kind={element.kind ?? "ghost"}
