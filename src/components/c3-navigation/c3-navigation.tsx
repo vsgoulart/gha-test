@@ -28,10 +28,10 @@ import {
 	Enterprise,
 	Help,
 	Launch,
-	Switcher as SwitcherIcon,
 	UserAvatar,
 } from "@carbon/react/icons"
 import React, { ComponentProps, useEffect, useState } from "react"
+import { C3AppMenuIcon } from "../../icons/c3-icons"
 
 import {
 	C3NavigationProps,
@@ -77,7 +77,7 @@ const C3NavigationAppBar = ({
 				}}
 				tooltipAlignment="start"
 			>
-				{appBarOpen ? <Close size={20} /> : <SwitcherIcon size={20} />}
+				{appBarOpen ? <Close size={20} /> : <C3AppMenuIcon size={20} />}
 			</HeaderGlobalAction>
 
 			<SideNav

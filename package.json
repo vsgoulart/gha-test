@@ -1,6 +1,6 @@
 {
 	"name": "@camunda-cloud/camunda-composite-components",
-	"version": "0.0.14",
+	"version": "0.0.15",
 	"scripts": {
 		"build": "tsc",
 		"storybook": "start-storybook -p 6006",
