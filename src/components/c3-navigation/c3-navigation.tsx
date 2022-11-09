@@ -228,6 +228,7 @@ const C3NavigationSideBar = (props: {
 						setSideBarOpen(!sideBarOpen)
 					}}
 					isActive={sideBarOpen}
+					tooltipAlignment={sideBar.type === 'user' ? 'end' : 'center'}
 				>
 					{icon}
 				</HeaderGlobalAction>
