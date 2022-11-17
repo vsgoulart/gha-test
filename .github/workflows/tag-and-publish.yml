@@ -1,11 +1,8 @@
 name: Tag and publish a new version
 
 on:
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "Version"
-        required: true
+  release:
+    types: [published]
 
 jobs:
   tag-and-publish:
@@ -28,10 +25,12 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          npm version ${{ inputs.version }} -m "chore: Publish v%s"
+          npm version ${{ env.RELEASE_VERSION }} -m "chore: Publish v%s" --git-tag-version false
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
       - name: Publish to NPM
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npm publish --access=public
       - name: Push changes
-        run: git push --follow-tags
+        run: git push
