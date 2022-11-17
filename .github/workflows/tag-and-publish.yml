@@ -25,7 +25,9 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
-          npm version ${{ env.RELEASE_VERSION }} -m "chore: Publish v%s" --git-tag-version false
+          npm version ${{ env.RELEASE_VERSION }} --git-tag-version false
+          git add .
+          git commit -m "chore: Publish v${{ env.RELEASE_VERSION }}"
         env:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
       - name: Publish to NPM
