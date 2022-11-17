@@ -1,5 +1,5 @@
 {
-	"name": "@camunda-cloud/camunda-composite-components",
+	"name": "@camunda/camunda-composite-components",
 	"version": "0.0.17",
 	"scripts": {
 		"build": "tsc",
@@ -46,10 +46,7 @@
 	"files": [
 		"/lib"
 	],
-	"publishConfig": {
-		"registry": "https://npm.pkg.github.com/"
-	},
 	"author": "Camunda",
-	"license": "ISC",
+	"license": "Apache-2.0",
 	"packageManager": "yarn@3.2.1"
 }

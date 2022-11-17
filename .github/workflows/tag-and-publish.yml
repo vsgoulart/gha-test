@@ -1,0 +1,38 @@
+name: Tag and publish a new version
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  tag-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 19
+          cache: "yarn"
+      - name: Install
+        run: yarn install --frozen-lockfile
+      - name: Build
+        run: yarn build
+      - name: Set version
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          npm version ${{ env.RELEASE_VERSION }} --git-tag-version false
+          git add .
+          git commit -m "chore: Publish v${{ env.RELEASE_VERSION }}"
+        env:
+          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
+      - name: Publish to NPM
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access=public
+      - name: Push changes
+        run: git push
