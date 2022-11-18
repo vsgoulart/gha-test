@@ -1,6 +1,6 @@
 {
 	"name": "@vzeta/camunda-composite-components",
-	"version": "0.0.18",
+	"version": "0.0.26",
 	"scripts": {
 		"build": "tsc",
 		"storybook": "start-storybook -p 6006",
