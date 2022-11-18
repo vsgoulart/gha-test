@@ -32,7 +32,7 @@ jobs:
           git commit -m "chore: Publish v${{ env.RELEASE_VERSION }}"
       - name: Publish to NPM
         run: |
-          echo "//registry.npmjs.org/:_authToken=${{ env.RELEASE_VERSION }}" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=${{ env.NPM_TOKEN }}" >> .npmrc
           npm publish --access=public
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
