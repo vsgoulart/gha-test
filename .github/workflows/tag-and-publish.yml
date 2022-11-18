@@ -24,8 +24,7 @@ jobs:
       - name: Build
         run: yarn build
       - name: Set output
-        id: vars
-        run: echo ::set-output name=tag::${GITHUB_REF#refs/*/}
+        run: echo "{tag}={${GITHUB_REF#refs/*/}}" >> $GITHUB_OUTPUT
       - name: Set version
         run: |
           git config user.name 'github-actions[bot]'
@@ -36,6 +35,10 @@ jobs:
         env:
           RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
       - name: Publish to NPM
-        run: npm publish --access=public
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${{ env.RELEASE_VERSION }}" >> .npmrc
+          npm publish --access=public
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Push changes
         run: git push
