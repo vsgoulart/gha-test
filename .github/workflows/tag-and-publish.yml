@@ -22,7 +22,7 @@ jobs:
       - name: Build
         run: yarn build
       - name: Set output
-        run: echo "tag=${{ GITHUB_REF#refs/*/ }}" >> $GITHUB_OUTPUT
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
       - name: Set version
         run: |
           git config user.name 'github-actions[bot]'
@@ -30,8 +30,6 @@ jobs:
           npm version ${{ env.RELEASE_VERSION }} --git-tag-version false
           git add .
           git commit -m "chore: Publish v${{ env.RELEASE_VERSION }}"
-        env:
-          RELEASE_VERSION: ${{ steps.vars.outputs.tag }}
       - name: Publish to NPM
         run: |
           echo "//registry.npmjs.org/:_authToken=${{ env.RELEASE_VERSION }}" >> .npmrc
